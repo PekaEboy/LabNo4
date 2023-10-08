@@ -20,35 +20,60 @@ int main()
     for (int i = 0; i < N; i++) {
         cin >> a[i];
     }
-    int n = 0;
-    int b[100];
     int c[100];
-    do {
-        int mn = a[0];
-        int k = 0;
-        for (int i = 1; i < N; i++) {
-            if (mn > a[i]) {
-                mn = a[i];
-                k = i;
+    int ln = 1;
+    for (int i = 0; i + 1 < N; i++) {
+        if (i == 0) {
+            if (a[i] > a[i + 1]) {
+                c[i] = a[i + 1];
+                c[i + 1] = a[i];
+            }
+            else {
+                c[i] = a[i];
+                c[i + 1] = a[i + 1];
+            }
+            ln++;
+        }
+        else {
+            if (c[i] > a[i + 1]) {
+                c[i + 1] = a[i + 1];
+                ln++;
+                for (int i = 0; i < ln; i++) {
+                    for (int j = 0; j < ln - i - 1; j++) {
+                        int d = c[j];
+                        if (c[j] > c[j + 1]) {
+                            c[j] = c[j + 1];
+                            c[j + 1] = d;
+                        }
+                    }
+                }
+            }
+            else {
+                c[i + 1] = a[i + 1];
+                ln++;
             }
         }
-        bool Equal = false;
-        for (int i = 0; i < N; i++) {
-            if (c[i] == k) {
-                Equal = true;
-                break;
-            }
+    }
+    int b[100];
+    b[0] = c[0];
+    int tm = 1;
+    int k = 0;
+    cout << ln << endl;
+    for (int i = 1; i < ln; i++) {
+        if (c[i] != c[i - 1]) {
+            b[i-k] = c[i];
+            tm++;
         }
-        c[n] = k;
-        if (!Equal)
-            b[n] = mn;
-        n++;
-    } while (n < N);
-    for (int i=0; i < N; i++) {
+        else {
+            k++;
+        }
+    }
+    for (int i = 0; i < tm; i++) {
         cout << b[i] << " ";
     }
     system("pause");
     return 0;
+    
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
