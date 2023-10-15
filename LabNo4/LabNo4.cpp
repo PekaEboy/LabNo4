@@ -11,6 +11,7 @@ using namespace std;
 
 int main()
 {
+    cout << INT_MIN << endl << INT_MAX << endl;
     setlocale(LC_ALL, "ru");
     int N;
     cout << "Введите длину массива: ";
@@ -20,61 +21,51 @@ int main()
     for (int i = 0; i < N; i++) {
         cin >> a[i];
     }
-    int c[100];
-    int ln = 1;
-    for (int i = 0; i + 1 < N; i++) {
-        if (i == 0) {
-            if (a[i] > a[i + 1]) {
-                c[i] = a[i + 1];
-                c[i + 1] = a[i];
-            }
-            else {
-                c[i] = a[i];
-                c[i + 1] = a[i + 1];
-            }
-            ln++;
-        }
-        else {
-            if (c[i] > a[i + 1]) {
-                c[i + 1] = a[i + 1];
-                ln++;
-                for (int i = 0; i < ln; i++) {
-                    for (int j = 0; j < ln - i - 1; j++) {
-                        int d = c[j];
-                        if (c[j] > c[j + 1]) {
-                            c[j] = c[j + 1];
-                            c[j + 1] = d;
-                        }
-                    }
-                }
-            }
-            else {
-                c[i + 1] = a[i + 1];
-                ln++;
-            }
-        }
+    int mn = a[0];
+    for (int i = 1; i < N; i++) {
+        if (a[i] < mn)
+            mn = a[i];
+    }
+    int mx = a[0];
+    for (int i = 1; i < N; i++) {
+        if (a[i] > mx)
+            mx = a[i];
     }
     int b[100];
-    b[0] = c[0];
-    int tm = 1;
-    int k = 0;
-    cout << ln << endl;
-    for (int i = 1; i < ln; i++) {
-        if (c[i] != c[i - 1]) {
-            b[i-k] = c[i];
-            tm++;
-        }
-        else {
+    b[0] = mn;
+    int k = 1;
+    if (mn != mx) {
+        if (N == 2) {
+            b[1] = mx;
             k++;
         }
+        else {
+            for (int i = mn + 1; i <= mx; i++) {
+                bool Founded = false;
+                for (int j = 0; j < N; j++) {
+                    if (a[j] == i) Founded = true;
+                }
+                if (Founded) {
+                    b[k] = i;
+                    k++;
+                }
+                if (i == INT_MAX) {
+                    b[k] = i;
+                    break;
+                }
+            }
+        }
     }
-    for (int i = 0; i < tm; i++) {
+    cout << "Полученный массив: ";
+    for (int i = 0; i < k; i++) {
         cout << b[i] << " ";
     }
+    cout << endl;
     system("pause");
     return 0;
     
 }
+
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
