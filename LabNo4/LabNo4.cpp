@@ -32,6 +32,7 @@ int main()
             mx = a[i];
     }
     int b[100];
+
     b[0] = mn;
     int k = 1;
     if (mn != mx) {
@@ -40,18 +41,18 @@ int main()
             k++;
         }
         else {
-            for (int i = mn + 1; i <= mx; i++) {
-                bool Founded = false;
+            for (int i = 1; i < N; i++) {
+                int crmn = mn;
+                mn = mx;
                 for (int j = 0; j < N; j++) {
-                    if (a[j] == i) Founded = true;
+                    
+                    if ((a[j] < mn) && (a[j] > crmn)) {
+                        mn = a[j];
+                    }
                 }
-                if (Founded) {
-                    b[k] = i;
+                if (mn != crmn) {
+                    b[k] = mn;
                     k++;
-                }
-                if (i == INT_MAX) {
-                    b[k] = i;
-                    break;
                 }
             }
         }
